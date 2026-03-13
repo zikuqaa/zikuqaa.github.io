@@ -26,6 +26,10 @@
       --success-line: rgba(58, 214, 111, 0.42);
       --success-glow: rgba(58, 214, 111, 0.22);
 
+      --danger: #ff6a6a;
+      --danger-soft: rgba(255, 106, 106, 0.12);
+      --danger-line: rgba(255, 106, 106, 0.36);
+
       --radius-shell: 28px;
       --radius-inner: 22px;
       --radius-btn: 10px;
@@ -84,6 +88,24 @@
       mix-blend-mode: screen;
     }
 
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    tr:focus-visible,
+    .tile:focus-visible,
+    .sub-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
     .screen {
       width: 100%;
       height: 100%;
@@ -93,8 +115,8 @@
     }
 
     .mdt-shell {
-      width: min(1280px, 96vw);
-      height: min(750px, 90vh);
+      width: min(1380px, 97vw);
+      height: min(790px, 92vh);
       position: relative;
       border-radius: var(--radius-shell);
       overflow: hidden;
@@ -159,8 +181,9 @@
       width: 100%;
       height: 100%;
       display: none;
-      grid-template-rows: auto 1fr auto;
-      gap: 24px;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 20px;
+      min-height: 0;
     }
 
     .view.active {
@@ -194,6 +217,7 @@
       box-shadow:
         0 0 14px var(--accent-glow-1),
         0 0 28px var(--accent-glow-2);
+      flex-shrink: 0;
     }
 
     .brand-copy h1 {
@@ -205,7 +229,7 @@
 
     .brand-copy p {
       margin: 6px 0 0;
-      max-width: 380px;
+      max-width: 440px;
       color: var(--muted);
       font-size: 12px;
       line-height: 1.5;
@@ -236,9 +260,9 @@
     }
 
     .close-btn {
-      border-color: rgba(255, 110, 110, 0.38);
+      border-color: var(--danger-line);
       color: #ff9a9a;
-      background: linear-gradient(180deg, rgba(255, 106, 106, 0.11), rgba(255, 106, 106, 0.04));
+      background: linear-gradient(180deg, var(--danger-soft), rgba(255, 106, 106, 0.04));
       box-shadow: 0 0 16px rgba(255, 106, 106, 0.1);
     }
 
@@ -247,7 +271,10 @@
     .theme-btn:hover,
     .enter-btn:hover,
     .sub-btn:hover,
-    .search-btn:hover {
+    .search-btn:hover,
+    .action-secondary:hover,
+    .modal-btn:hover,
+    .stat-card:hover {
       transform: translateY(-1px);
       filter: brightness(1.08);
     }
@@ -258,16 +285,59 @@
       align-items: center;
     }
 
+    .home-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card {
+      min-height: 92px;
+      border-radius: 16px;
+      border: 1px solid rgba(150, 170, 205, 0.14);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01)),
+        linear-gradient(180deg, rgba(9, 15, 25, 0.97), rgba(6, 10, 18, 0.98));
+      padding: 16px;
+      box-shadow:
+        inset 0 0 12px rgba(255,255,255,0.02),
+        0 0 18px rgba(0,0,0,0.14);
+      transition: 0.18s ease;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--text);
+      text-shadow: 0 0 20px var(--accent-glow-2);
+    }
+
+    .stat-sub {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #c6dbf2;
+    }
+
     .tile-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 18px;
       align-content: center;
+      min-height: 0;
     }
 
     .tile {
       position: relative;
-      min-height: 140px;
+      min-height: 138px;
       clip-path: var(--tile-shape);
       border: none;
       color: inherit;
@@ -388,7 +458,8 @@
       color: var(--muted);
     }
 
-    .theme-controls {
+    .theme-controls,
+    .page-actions {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -398,7 +469,9 @@
     .theme-btn,
     .enter-btn,
     .sub-btn,
-    .search-btn {
+    .search-btn,
+    .action-secondary,
+    .modal-btn {
       height: 36px;
       padding: 0 14px;
       border-radius: var(--radius-btn);
@@ -420,8 +493,8 @@
     }
 
     .enter-btn,
-    .sub-btn,
-    .search-btn {
+    .search-btn,
+    .modal-btn.primary {
       border: 1px solid var(--success-line);
       color: #dbffe8;
       background: linear-gradient(180deg, var(--success-soft), rgba(255,255,255,0.03));
@@ -430,15 +503,42 @@
         inset 0 0 10px rgba(255,255,255,0.02);
     }
 
+    .sub-btn,
+    .action-secondary,
+    .modal-btn.secondary {
+      justify-content: flex-start;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      border: 1px solid rgba(150,170,205,0.16);
+      color: var(--text);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      box-shadow: none;
+    }
+
+    .sub-btn {
+      height: 42px;
+    }
+
+    .sub-btn.active {
+      border-color: var(--accent-line);
+      box-shadow:
+        0 0 18px var(--accent-glow-2),
+        inset 0 0 10px rgba(255,255,255,0.02);
+      background: linear-gradient(180deg, var(--accent-soft), rgba(255,255,255,0.02));
+    }
+
     .content-layout {
       display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 20px;
+      grid-template-columns: 290px 1fr 320px;
+      gap: 18px;
       min-height: 0;
     }
 
     .side-panel,
-    .main-panel {
+    .main-panel,
+    .detail-panel {
       min-height: 0;
       border-radius: 18px;
       background:
@@ -453,19 +553,22 @@
     .side-panel {
       padding: 18px;
       display: grid;
-      grid-template-rows: auto auto 1fr;
+      grid-template-rows: auto auto 1fr auto;
       gap: 16px;
     }
 
     .side-section h4,
-    .main-header h3 {
+    .main-header h3,
+    .detail-panel h3 {
       margin: 0 0 8px;
       font-size: 13px;
       letter-spacing: 0.5px;
       color: #dcebff;
     }
 
-    .side-section p {
+    .side-section p,
+    .detail-desc,
+    .detail-empty {
       margin: 0;
       font-size: 12px;
       line-height: 1.45;
@@ -491,32 +594,20 @@
       gap: 10px;
     }
 
-    .sub-btn {
-      justify-content: flex-start;
-      text-align: left;
-      height: 42px;
-      display: flex;
-      align-items: center;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-      border: 1px solid rgba(150,170,205,0.16);
-      color: var(--text);
-      box-shadow: none;
-    }
-
-    .sub-btn.active {
-      border-color: var(--accent-line);
-      box-shadow:
-        0 0 18px var(--accent-glow-2),
-        inset 0 0 10px rgba(255,255,255,0.02);
-      background: linear-gradient(180deg, var(--accent-soft), rgba(255,255,255,0.02));
-    }
-
     .main-panel {
       padding: 18px;
       display: grid;
       grid-template-rows: auto auto 1fr;
       gap: 16px;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .detail-panel {
+      padding: 18px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
       overflow: hidden;
     }
 
@@ -535,7 +626,7 @@
 
     .search-row {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr auto auto;
       gap: 12px;
     }
 
@@ -549,6 +640,7 @@
       gap: 10px;
       padding: 0 14px;
       box-shadow: inset 0 0 10px rgba(255,255,255,0.02);
+      min-width: 0;
     }
 
     .search-box input {
@@ -558,6 +650,7 @@
       background: transparent;
       color: var(--text);
       font-size: 13px;
+      min-width: 0;
     }
 
     .table-wrap {
@@ -598,7 +691,8 @@
       cursor: pointer;
     }
 
-    tbody tr:hover {
+    tbody tr:hover,
+    tbody tr.selected {
       background: rgba(255,255,255,0.03);
       box-shadow: inset 0 0 0 1px rgba(150,170,205,0.08);
     }
@@ -615,6 +709,82 @@
       border: 1px solid var(--accent-line);
       background: linear-gradient(180deg, var(--accent-soft), rgba(255,255,255,0.02));
       box-shadow: 0 0 14px var(--accent-glow-2);
+      flex-shrink: 0;
+    }
+
+    .detail-meta {
+      display: grid;
+      gap: 10px;
+      overflow: auto;
+      min-height: 0;
+      padding-right: 2px;
+    }
+
+    .detail-group {
+      padding: 12px 13px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(150,170,205,0.12);
+    }
+
+    .detail-key {
+      font-size: 10px;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .detail-value {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .map-placeholder {
+      min-height: 170px;
+      border-radius: 16px;
+      border: 1px solid var(--accent-line);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.02), transparent 48%),
+        repeating-linear-gradient(
+          0deg,
+          rgba(255,255,255,0.03) 0px,
+          rgba(255,255,255,0.03) 1px,
+          transparent 1px,
+          transparent 22px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,0.03) 0px,
+          rgba(255,255,255,0.03) 1px,
+          transparent 1px,
+          transparent 22px
+        ),
+        radial-gradient(circle at 50% 50%, var(--accent-glow-2), transparent 46%),
+        rgba(255,255,255,0.02);
+      box-shadow:
+        0 0 20px var(--accent-glow-2),
+        inset 0 0 18px rgba(255,255,255,0.02);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 12px;
+    }
+
+    .map-placeholder strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #dcebff;
+    }
+
+    .map-placeholder span {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.45;
+      max-width: 200px;
     }
 
     .view-footer {
@@ -628,7 +798,7 @@
       font-size: 11px;
       color: var(--muted);
       line-height: 1.45;
-      max-width: 500px;
+      max-width: 620px;
     }
 
     .toast-wrap {
@@ -667,6 +837,116 @@
       line-height: 1.45;
     }
 
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 12, 0.72);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9998;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(560px, 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(150,170,205,0.16);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
+        linear-gradient(180deg, rgba(10, 16, 28, 0.98), rgba(8, 13, 23, 0.98));
+      box-shadow:
+        0 0 28px var(--accent-glow-2),
+        0 20px 50px rgba(0,0,0,0.45);
+      padding: 20px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .modal-header h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+    }
+
+    .modal-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      font-size: 11px;
+      color: #dcebff;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(150,170,205,0.16);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      padding: 12px 13px;
+      outline: none;
+      box-shadow: inset 0 0 10px rgba(255,255,255,0.02);
+    }
+
+    .field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     @keyframes toastIn {
       from {
         opacity: 0;
@@ -678,30 +958,56 @@
       }
     }
 
-    @media (max-width: 1150px) {
-      .tile-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    @media (max-width: 1280px) {
+      .content-layout {
+        grid-template-columns: 270px 1fr;
       }
 
-      .content-layout {
-        grid-template-columns: 1fr;
+      .detail-panel {
+        grid-column: 1 / -1;
+        min-height: 260px;
       }
     }
 
-    @media (max-width: 700px) {
-      .tile-grid {
+    @media (max-width: 1150px) {
+      .tile-grid,
+      .home-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .content-layout {
         grid-template-columns: 1fr;
       }
 
-      .footer,
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+
       .view-footer,
+      .footer,
       .main-header,
       .header {
         flex-direction: column;
         align-items: stretch;
       }
 
-      .search-row {
+      .page-actions,
+      .theme-controls {
+        width: 100%;
+      }
+
+      .page-actions > *,
+      .theme-controls > * {
+        flex: 1 1 auto;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .tile-grid,
+      .home-stats,
+      .modal-grid {
         grid-template-columns: 1fr;
       }
 
@@ -721,7 +1027,28 @@
   </style>
 </head>
 <body>
-  <div class="toast-wrap" id="toastWrap"></div>
+  <div class="toast-wrap" id="toastWrap" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <div>
+          <h3 id="modalTitle">Create Record</h3>
+          <p id="modalSubtitle">Add a new entry to the selected section.</p>
+        </div>
+        <button class="close-btn" id="modalCloseBtn" aria-label="Close create modal">×</button>
+      </div>
+
+      <form id="createForm">
+        <div class="modal-grid" id="formFields"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="modal-btn secondary" id="modalCancelBtn">Cancel</button>
+          <button type="submit" class="modal-btn primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <div class="screen">
     <section class="mdt-shell">
@@ -731,7 +1058,6 @@
       <span class="corner br"></span>
 
       <div class="inner">
-        <!-- HOME VIEW -->
         <section class="view active" id="homeView">
           <header class="header">
             <div class="brand-wrap">
@@ -740,8 +1066,8 @@
                 <div class="brand-copy">
                   <h1>LSPD MDT</h1>
                   <p>
-                    Secure internal terminal for records, dispatch activity, unit access,
-                    and field response coordination.
+                    Secure internal terminal for records, dispatch activity, BOLO access,
+                    unit coordination, and field response management.
                   </p>
                 </div>
               </div>
@@ -753,8 +1079,34 @@
             </div>
           </header>
 
-          <main class="tile-grid" id="tileGrid">
-            <button class="tile active" data-module="UNITS" data-desc="Monitor active officers, current callsigns, patrol assignments, and response status.">
+          <section class="home-stats" aria-label="Agency overview statistics">
+            <div class="stat-card">
+              <div class="stat-label">Officers Online</div>
+              <div class="stat-value" id="homeOfficersOnline">24</div>
+              <div class="stat-sub">8 patrol units active</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Reports Today</div>
+              <div class="stat-value" id="homeReportsToday">18</div>
+              <div class="stat-sub">6 awaiting final review</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Active Warrants</div>
+              <div class="stat-value" id="homeActiveWarrants">11</div>
+              <div class="stat-sub">3 marked priority</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Highest Ranking Online</div>
+              <div class="stat-value" id="homeHighestRank" style="font-size:18px;line-height:1.2;">Captain R. Hayes</div>
+              <div class="stat-sub">Command available</div>
+            </div>
+          </section>
+
+          <main class="tile-grid" id="tileGrid" aria-label="MDT modules">
+            <button class="tile active" data-module="UNITS" data-desc="Monitor active officers, current callsigns, patrol assignments, and response status." aria-label="Units module">
               <span class="tile-dot"></span>
               <div class="tile-icon">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -765,7 +1117,7 @@
               <div class="tile-desc">Monitor live unit status and current patrol activity.</div>
             </button>
 
-            <button class="tile" data-module="REPORTS" data-desc="Create and review incident reports, officer notes, statements, and logged documentation.">
+            <button class="tile" data-module="REPORTS" data-desc="Create and review incident reports, officer notes, statements, and logged documentation." aria-label="Reports module">
               <span class="tile-dot"></span>
               <div class="tile-icon">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -777,7 +1129,7 @@
               <div class="tile-desc">Write and review internal paperwork and case notes.</div>
             </button>
 
-            <button class="tile" data-module="EVIDENCE" data-desc="Review logged evidence, attachment history, locker references, and forensic records.">
+            <button class="tile" data-module="EVIDENCE" data-desc="Review logged evidence, attachment history, locker references, and forensic records." aria-label="Evidence module">
               <span class="tile-dot"></span>
               <div class="tile-icon">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -789,7 +1141,7 @@
               <div class="tile-desc">Track secured items and evidence chain records.</div>
             </button>
 
-            <button class="tile" data-module="CALLS" data-desc="Access dispatch traffic, active emergency calls, and current response priority logs.">
+            <button class="tile" data-module="CALLS" data-desc="Access dispatch traffic, active emergency calls, and current response priority logs." aria-label="Calls module">
               <span class="tile-dot"></span>
               <div class="tile-icon">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -800,7 +1152,7 @@
               <div class="tile-desc">Handle emergency traffic and live service requests.</div>
             </button>
 
-            <button class="tile" data-module="CITIZENS" data-desc="Search citizen profiles, identifiers, prior flags, licenses, and general record data.">
+            <button class="tile" data-module="CITIZENS" data-desc="Search citizen profiles, identifiers, prior flags, licenses, and general record data." aria-label="Citizens module">
               <span class="tile-dot"></span>
               <div class="tile-icon">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -812,7 +1164,7 @@
               <div class="tile-desc">Find citizens, linked records, and identity details fast.</div>
             </button>
 
-            <button class="tile" data-module="OPERATIONS" data-desc="Coordinate higher priority scenes, tactical planning, and organized field assignments.">
+            <button class="tile" data-module="OPERATIONS" data-desc="Coordinate higher priority scenes, tactical planning, and organized field assignments." aria-label="Operations module">
               <span class="tile-dot"></span>
               <div class="tile-icon">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -824,7 +1176,7 @@
               <div class="tile-desc">Coordinate scenes, plans, teams, and response structure.</div>
             </button>
 
-            <button class="tile" data-module="BOLOS" data-desc="Publish be-on-the-lookout alerts for active persons, vehicles, and immediate watch targets.">
+            <button class="tile" data-module="BOLOS" data-desc="Publish be-on-the-lookout alerts for active persons, vehicles, and immediate watch targets." aria-label="BOLOs module">
               <span class="tile-dot"></span>
               <div class="tile-icon">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -836,7 +1188,7 @@
               <div class="tile-desc">Push alerts and threat notices to active officers.</div>
             </button>
 
-            <button class="tile" data-module="SETTINGS" data-desc="Adjust theme colors, terminal preferences, layout behavior, and saved visual options.">
+            <button class="tile" data-module="SETTINGS" data-desc="Adjust theme colors, terminal preferences, layout behavior, and saved visual options." aria-label="Settings module">
               <span class="tile-dot"></span>
               <div class="tile-icon">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -864,7 +1216,6 @@
           </footer>
         </section>
 
-        <!-- MODULE VIEW -->
         <section class="view" id="moduleView">
           <header class="header">
             <div class="brand-wrap">
@@ -881,8 +1232,8 @@
             </div>
 
             <div class="header-actions">
-              <button class="back-btn" id="backBtn">←</button>
-              <button class="close-btn" id="moduleCloseBtn">×</button>
+              <button class="back-btn" id="backBtn" aria-label="Go back">←</button>
+              <button class="close-btn" id="moduleCloseBtn" aria-label="Close">×</button>
             </div>
           </header>
 
@@ -894,14 +1245,13 @@
 
               <div class="side-section">
                 <h4>Quick Sections</h4>
-                <p>Select a section to preview how the inner MDT pages could swap content.</p>
+                <p>Select a section to swap content, create entries, and inspect records.</p>
               </div>
 
-              <div class="sub-list" id="subList">
-                <button class="sub-btn active" data-sub="Overview">Overview</button>
-                <button class="sub-btn" data-sub="Database">Database</button>
-                <button class="sub-btn" data-sub="Assignments">Assignments</button>
-                <button class="sub-btn" data-sub="Archive">Archive</button>
+              <div class="sub-list" id="subList"></div>
+
+              <div class="side-section">
+                <button class="enter-btn" id="createBtn" style="width:100%;justify-content:center;">Create New</button>
               </div>
             </aside>
 
@@ -917,9 +1267,10 @@
               <div class="search-row">
                 <div class="search-box">
                   <span>🔎</span>
-                  <input id="searchInput" type="text" placeholder="Search records, names, unit IDs..." />
+                  <input id="searchInput" type="text" placeholder="Search records, names, unit IDs..." aria-label="Search records" />
                 </div>
                 <button class="search-btn" id="searchBtn">Search</button>
+                <button class="action-secondary" id="clearSearchBtn">Clear</button>
               </div>
 
               <div class="table-wrap">
@@ -931,13 +1282,32 @@
                 </table>
               </div>
             </section>
+
+            <aside class="detail-panel" aria-live="polite">
+              <div>
+                <h3>Record Details</h3>
+                <p class="detail-desc" id="detailDesc">Click a row to inspect more info and interact with the selected entry.</p>
+              </div>
+
+              <div class="detail-meta" id="detailMeta">
+                <div class="detail-empty">No record selected yet.</div>
+              </div>
+
+              <div class="page-actions">
+                <button class="action-secondary" id="editBtn">Edit</button>
+                <button class="enter-btn" id="openRecordBtn">Open Record</button>
+              </div>
+            </aside>
           </main>
 
           <footer class="view-footer">
             <div class="footer-note" id="footerNote">
               Internal terminal preview only. Later this can be wired into real NUI callbacks, searches, and database data.
             </div>
-            <button class="enter-btn" id="actionBtn">Open Record</button>
+            <div class="page-actions">
+              <button class="action-secondary" id="refreshBtn">Refresh</button>
+              <button class="enter-btn" id="actionBtn">Primary Action</button>
+            </div>
           </footer>
         </section>
       </div>
@@ -1311,6 +1681,13 @@
       }
     };
 
+    const HOME_STATS = {
+      officersOnline: 24,
+      reportsToday: 18,
+      activeWarrants: 11,
+      highestRank: "Captain R. Hayes"
+    };
+
     const homeView = document.getElementById("homeView");
     const moduleView = document.getElementById("moduleView");
     const tiles = [...document.querySelectorAll(".tile")];
@@ -1319,6 +1696,9 @@
     const closeBtn = document.getElementById("closeBtn");
     const backBtn = document.getElementById("backBtn");
     const moduleCloseBtn = document.getElementById("moduleCloseBtn");
+    const createBtn = document.getElementById("createBtn");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const clearSearchBtn = document.getElementById("clearSearchBtn");
 
     const moduleTitle = document.getElementById("moduleTitle");
     const moduleDesc = document.getElementById("moduleDesc");
@@ -1334,6 +1714,23 @@
     const actionBtn = document.getElementById("actionBtn");
     const footerNote = document.getElementById("footerNote");
     const toastWrap = document.getElementById("toastWrap");
+    const detailMeta = document.getElementById("detailMeta");
+    const detailDesc = document.getElementById("detailDesc");
+    const openRecordBtn = document.getElementById("openRecordBtn");
+    const editBtn = document.getElementById("editBtn");
+
+    const modalOverlay = document.getElementById("modalOverlay");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalSubtitle = document.getElementById("modalSubtitle");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
+    const modalCancelBtn = document.getElementById("modalCancelBtn");
+    const formFields = document.getElementById("formFields");
+    const createForm = document.getElementById("createForm");
+
+    const homeOfficersOnline = document.getElementById("homeOfficersOnline");
+    const homeReportsToday = document.getElementById("homeReportsToday");
+    const homeActiveWarrants = document.getElementById("homeActiveWarrants");
+    const homeHighestRank = document.getElementById("homeHighestRank");
 
     let currentThemeIndex = parseInt(localStorage.getItem("mdtThemeIndex") || "0", 10);
     if (Number.isNaN(currentThemeIndex) || currentThemeIndex < 0 || currentThemeIndex >= THEMES.length) {
@@ -1342,6 +1739,17 @@
 
     let selectedModule = "UNITS";
     let currentSubSection = "Overview";
+    let selectedRecord = null;
+    let filteredRows = [];
+    let tableRowRefs = [];
+
+    function deepClone(data) {
+      return JSON.parse(JSON.stringify(data));
+    }
+
+    const state = {
+      modules: deepClone(MODULE_DATA)
+    };
 
     function showToast(title, message) {
       const toast = document.createElement("div");
@@ -1359,14 +1767,23 @@
 
     function applyTheme(index) {
       const theme = THEMES[index];
-
       document.documentElement.style.setProperty("--accent", theme.accent);
       document.documentElement.style.setProperty("--accent-soft", theme.soft);
       document.documentElement.style.setProperty("--accent-line", theme.line);
       document.documentElement.style.setProperty("--accent-glow-1", theme.glow1);
       document.documentElement.style.setProperty("--accent-glow-2", theme.glow2);
-
       localStorage.setItem("mdtThemeIndex", String(index));
+    }
+
+    function updateHomeStats() {
+      homeOfficersOnline.textContent = HOME_STATS.officersOnline;
+      homeReportsToday.textContent = HOME_STATS.reportsToday;
+      homeActiveWarrants.textContent = HOME_STATS.activeWarrants;
+      homeHighestRank.textContent = HOME_STATS.highestRank;
+    }
+
+    function getSectionData() {
+      return state.modules[selectedModule].sections[currentSubSection];
     }
 
     function getActiveTile() {
@@ -1386,24 +1803,118 @@
     }
 
     function renderSubButtons() {
-      const sections = Object.keys(MODULE_DATA[selectedModule].sections);
+      const sections = Object.keys(state.modules[selectedModule].sections);
       subList.innerHTML = "";
 
       sections.forEach((sectionName, index) => {
         const button = document.createElement("button");
+        button.type = "button";
         button.className = `sub-btn${index === 0 ? " active" : ""}`;
         button.dataset.sub = sectionName;
         button.textContent = sectionName;
+        button.setAttribute("aria-label", `Open ${sectionName} section`);
         subList.appendChild(button);
       });
 
       currentSubSection = sections[0];
     }
 
-    function renderTable() {
-      const sectionData = MODULE_DATA[selectedModule].sections[currentSubSection];
+    function buildRecordDetailObject(row, columns) {
+      const base = {};
+      columns.forEach((col, index) => {
+        base[col] = row[index] ?? "";
+      });
+
+      base["Module"] = selectedModule;
+      base["Section"] = currentSubSection;
+      base["Access"] = "Internal";
+      base["Updated"] = "Just now";
+      base["Assigned Officer"] = "Sgt. Mason Hale";
+
+      if (selectedModule === "BOLOS") {
+        base["Map Region"] = "Downtown / Mirror Park";
+        base["Tracking"] = "GPS placeholder active";
+      }
+
+      return base;
+    }
+
+    function renderDetailPanel(record, columns) {
+      detailMeta.innerHTML = "";
+      if (!record) {
+        detailDesc.textContent = "Click a row to inspect more info and interact with the selected entry.";
+        detailMeta.innerHTML = `<div class="detail-empty">No record selected yet.</div>`;
+        return;
+      }
+
+      const recordObject = buildRecordDetailObject(record, columns);
+      detailDesc.textContent = `Viewing selected ${selectedModule.toLowerCase()} entry from ${currentSubSection}.`;
+
+      Object.entries(recordObject).forEach(([key, value]) => {
+        const block = document.createElement("div");
+        block.className = "detail-group";
+        block.innerHTML = `
+          <div class="detail-key">${key}</div>
+          <div class="detail-value">${value}</div>
+        `;
+        detailMeta.appendChild(block);
+      });
+
+      if (selectedModule === "BOLOS") {
+        const mapBlock = document.createElement("div");
+        mapBlock.className = "detail-group";
+        mapBlock.innerHTML = `
+          <div class="detail-key">Mini Map</div>
+          <div class="map-placeholder">
+            <div>
+              <strong>BOLO MAP PLACEHOLDER</strong>
+              <span>Drop your scripted map or tracking component in here later.</span>
+            </div>
+          </div>
+        `;
+        detailMeta.appendChild(mapBlock);
+      }
+    }
+
+    function getFilteredRows(searchValue = "") {
+      const section = getSectionData();
+      if (!searchValue) return section.rows;
+
+      const query = searchValue.toLowerCase();
+      return section.rows.filter(row =>
+        row.some(cell => String(cell).toLowerCase().includes(query))
+      );
+    }
+
+    function updateActionLabels() {
+      statusPill.textContent =
+        selectedModule === "CALLS" || selectedModule === "BOLOS" ? "LIVE" : "ONLINE";
+
+      actionBtn.textContent =
+        selectedModule === "REPORTS" ? "Open Report" :
+        selectedModule === "CITIZENS" ? "Open Citizen" :
+        selectedModule === "CALLS" ? "Attach Unit" :
+        selectedModule === "EVIDENCE" ? "Open Evidence" :
+        selectedModule === "BOLOS" ? "Track BOLO" :
+        "Open Record";
+
+      footerNote.textContent = `${selectedModule} is being previewed in browser mode. Later this can be connected to real searches, records, callbacks, creation flows, and live server data.`;
+    }
+
+    function selectRow(row, tr) {
+      selectedRecord = row;
+      tableRowRefs.forEach(node => node.classList.remove("selected"));
+      if (tr) tr.classList.add("selected");
+      renderDetailPanel(selectedRecord, getSectionData().columns);
+    }
+
+    function renderTable(searchValue = "") {
+      const sectionData = getSectionData();
+      filteredRows = getFilteredRows(searchValue);
       tableHeadRow.innerHTML = "";
       tableBody.innerHTML = "";
+      tableRowRefs = [];
+      selectedRecord = null;
 
       sectionData.columns.forEach(col => {
         const th = document.createElement("th");
@@ -1411,34 +1922,56 @@
         tableHeadRow.appendChild(th);
       });
 
-      sectionData.rows.forEach(row => {
+      filteredRows.forEach((row, rowIndex) => {
         const tr = document.createElement("tr");
+        tr.tabIndex = 0;
+        tr.setAttribute("role", "button");
+        tr.setAttribute("aria-label", `Open record ${row[0]}`);
+
         row.forEach(cell => {
           const td = document.createElement("td");
           td.textContent = cell;
           tr.appendChild(td);
         });
 
-        tr.addEventListener("click", () => {
-          showToast("Row Selected", `${selectedModule} → ${row[0]}`);
+        tr.addEventListener("click", () => selectRow(row, tr));
+        tr.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            selectRow(row, tr);
+          } else if (event.key === "ArrowDown") {
+            event.preventDefault();
+            const next = tableRowRefs[rowIndex + 1];
+            if (next) next.focus();
+          } else if (event.key === "ArrowUp") {
+            event.preventDefault();
+            const prev = tableRowRefs[rowIndex - 1];
+            if (prev) prev.focus();
+          }
         });
 
         tableBody.appendChild(tr);
+        tableRowRefs.push(tr);
       });
 
+      if (filteredRows.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = sectionData.columns.length;
+        td.textContent = "No results found.";
+        td.style.color = "var(--muted)";
+        tr.appendChild(td);
+        tableBody.appendChild(tr);
+      }
+
       mainSectionTitle.textContent = currentSubSection;
-      mainSectionDesc.textContent = `${selectedModule} / ${currentSubSection} preview content loaded.`;
-      statusPill.textContent = selectedModule === "CALLS" || selectedModule === "BOLOS" ? "LIVE" : "ONLINE";
-      footerNote.textContent = `${selectedModule} is being previewed in browser mode. Later this can be connected to real searches, records, callbacks, and live server data.`;
-      actionBtn.textContent = selectedModule === "REPORTS" ? "Open Report" :
-                              selectedModule === "CITIZENS" ? "Open Citizen" :
-                              selectedModule === "CALLS" ? "Attach Unit" :
-                              selectedModule === "EVIDENCE" ? "Open Evidence" :
-                              "Open Record";
+      mainSectionDesc.textContent = `${selectedModule} / ${currentSubSection} preview content loaded. Click any row for details.`;
+      updateActionLabels();
+      renderDetailPanel(null, sectionData.columns);
     }
 
     function openModuleView() {
-      const module = MODULE_DATA[selectedModule];
+      const module = state.modules[selectedModule];
       moduleTitle.textContent = selectedModule;
       moduleDesc.textContent = module.description;
       moduleBadge.textContent = `ACTIVE: ${selectedModule}`;
@@ -1454,12 +1987,155 @@
       showToast("Theme Changed", `${THEMES[currentThemeIndex].name} glow applied across the interface.`);
     }
 
+    function openCreateModal() {
+      const sectionData = getSectionData();
+      modalTitle.textContent = `Create ${selectedModule} Entry`;
+      modalSubtitle.textContent = `Add a new record to ${selectedModule} / ${currentSubSection}.`;
+      formFields.innerHTML = "";
+
+      sectionData.columns.forEach((column, index) => {
+        const field = document.createElement("div");
+        field.className = `field${index === sectionData.columns.length - 1 ? " full" : ""}`;
+
+        const id = `field-${index}-${column.replace(/\s+/g, "-").toLowerCase()}`;
+        const isLong = /notes|action|result|address|task|type|title/i.test(column) && index === sectionData.columns.length - 1;
+
+        field.innerHTML = `
+          <label for="${id}">${column}</label>
+          ${
+            isLong
+              ? `<textarea id="${id}" name="${column}" required></textarea>`
+              : `<input id="${id}" name="${column}" type="text" required />`
+          }
+        `;
+
+        formFields.appendChild(field);
+      });
+
+      modalOverlay.classList.add("open");
+      modalOverlay.setAttribute("aria-hidden", "false");
+
+      const firstInput = formFields.querySelector("input, textarea, select");
+      if (firstInput) firstInput.focus();
+    }
+
+    function closeCreateModal() {
+      modalOverlay.classList.remove("open");
+      modalOverlay.setAttribute("aria-hidden", "true");
+      createBtn.focus();
+    }
+
+    function createRecord(formData) {
+      const sectionData = getSectionData();
+      const newRow = sectionData.columns.map(column => formData.get(column)?.toString().trim() || "N/A");
+      sectionData.rows.unshift(newRow);
+
+      if (selectedModule === "REPORTS") {
+        HOME_STATS.reportsToday += 1;
+      }
+
+      if (selectedModule === "BOLOS") {
+        HOME_STATS.activeWarrants += 1;
+      }
+
+      updateHomeStats();
+      renderTable(searchInput.value.trim());
+      closeCreateModal();
+      showToast("Created", `New ${selectedModule.toLowerCase()} entry added.`);
+    }
+
+    function handleSearch() {
+      const value = searchInput.value.trim();
+      renderTable(value);
+      if (value) {
+        showToast("Search", `Searching "${value}" inside ${selectedModule}.`);
+      } else {
+        showToast("Search Cleared", "Showing all entries again.");
+      }
+    }
+
+    function openSelectedRecord() {
+      if (!selectedRecord) {
+        showToast("No Selection", "Pick a row first.");
+        return;
+      }
+
+      showToast("Record Opened", `${selectedModule} → ${selectedRecord[0]}`);
+    }
+
+    function editSelectedRecord() {
+      if (!selectedRecord) {
+        showToast("No Selection", "Pick a row first.");
+        return;
+      }
+
+      const columns = getSectionData().columns;
+      modalTitle.textContent = `Edit ${selectedModule} Entry`;
+      modalSubtitle.textContent = `Modify the selected record in ${currentSubSection}.`;
+      formFields.innerHTML = "";
+
+      columns.forEach((column, index) => {
+        const field = document.createElement("div");
+        field.className = `field${index === columns.length - 1 ? " full" : ""}`;
+
+        const id = `edit-field-${index}-${column.replace(/\s+/g, "-").toLowerCase()}`;
+        const value = selectedRecord[index] ?? "";
+        const isLong = /notes|action|result|address|task|type|title/i.test(column) && index === columns.length - 1;
+
+        field.innerHTML = `
+          <label for="${id}">${column}</label>
+          ${
+            isLong
+              ? `<textarea id="${id}" name="${column}" required>${value}</textarea>`
+              : `<input id="${id}" name="${column}" type="text" value="${String(value).replace(/"/g, "&quot;")}" required />`
+          }
+        `;
+
+        formFields.appendChild(field);
+      });
+
+      modalOverlay.classList.add("open");
+      modalOverlay.setAttribute("aria-hidden", "false");
+
+      createForm.dataset.mode = "edit";
+      const firstInput = formFields.querySelector("input, textarea, select");
+      if (firstInput) firstInput.focus();
+    }
+
+    function saveEditedRecord(formData) {
+      const sectionData = getSectionData();
+      const targetIndex = sectionData.rows.findIndex(row => row === selectedRecord);
+
+      if (targetIndex === -1) {
+        showToast("Edit Failed", "Could not find the selected record.");
+        closeCreateModal();
+        return;
+      }
+
+      const updatedRow = sectionData.columns.map(column => formData.get(column)?.toString().trim() || "N/A");
+      sectionData.rows[targetIndex] = updatedRow;
+      selectedRecord = updatedRow;
+
+      renderTable(searchInput.value.trim());
+
+      const matchedIndex = filteredRows.findIndex(row => row[0] === updatedRow[0]);
+      if (matchedIndex >= 0 && tableRowRefs[matchedIndex]) {
+        selectRow(filteredRows[matchedIndex], tableRowRefs[matchedIndex]);
+      }
+
+      closeCreateModal();
+      showToast("Updated", `${selectedModule} entry edited.`);
+    }
+
+    function resetFormMode() {
+      delete createForm.dataset.mode;
+    }
+
     tiles.forEach(tile => {
       tile.addEventListener("click", () => selectTile(tile));
     });
 
     chooseColorBtn.addEventListener("click", cycleTheme);
-
     enterBtn.addEventListener("click", openModuleView);
 
     backBtn.addEventListener("click", () => {
@@ -1483,30 +2159,89 @@
       target.classList.add("active");
 
       currentSubSection = target.dataset.sub;
+      searchInput.value = "";
       renderTable();
       showToast("Section Swapped", `${currentSubSection} loaded.`);
     });
 
-    searchBtn.addEventListener("click", () => {
-      const value = searchInput.value.trim();
-      if (!value) {
-        showToast("Search Empty", "Type something into the search field.");
-        return;
-      }
-      showToast("Search", `Searching "${value}" inside ${selectedModule}.`);
+    searchBtn.addEventListener("click", handleSearch);
+
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      renderTable();
+      showToast("Cleared", "Search filter removed.");
     });
 
     searchInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
-        searchBtn.click();
+        event.preventDefault();
+        handleSearch();
       }
     });
 
     actionBtn.addEventListener("click", () => {
-      showToast("Action", `${actionBtn.textContent} clicked in ${selectedModule}.`);
+      if (!selectedRecord) {
+        showToast("No Selection", "Pick a row first.");
+        return;
+      }
+
+      const label = actionBtn.textContent;
+      showToast("Action", `${label} clicked for ${selectedRecord[0]}.`);
+    });
+
+    openRecordBtn.addEventListener("click", openSelectedRecord);
+    editBtn.addEventListener("click", editSelectedRecord);
+
+    refreshBtn.addEventListener("click", () => {
+      renderTable(searchInput.value.trim());
+      showToast("Refreshed", `${selectedModule} / ${currentSubSection} reloaded.`);
+    });
+
+    createBtn.addEventListener("click", () => {
+      resetFormMode();
+      openCreateModal();
+    });
+
+    modalCloseBtn.addEventListener("click", () => {
+      resetFormMode();
+      closeCreateModal();
+    });
+
+    modalCancelBtn.addEventListener("click", () => {
+      resetFormMode();
+      closeCreateModal();
+    });
+
+    modalOverlay.addEventListener("click", (event) => {
+      if (event.target === modalOverlay) {
+        resetFormMode();
+        closeCreateModal();
+      }
+    });
+
+    createForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(createForm);
+
+      if (createForm.dataset.mode === "edit") {
+        saveEditedRecord(formData);
+      } else {
+        createRecord(formData);
+      }
+
+      resetFormMode();
+      createForm.reset();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modalOverlay.classList.contains("open")) {
+        resetFormMode();
+        closeCreateModal();
+      }
     });
 
     applyTheme(currentThemeIndex);
+    updateHomeStats();
     selectTile(tiles[0]);
   </script>
 </body>
