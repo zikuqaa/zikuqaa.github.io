@@ -3,46 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MDT Home Preview</title>
+  <title>LSPD MDT Preview</title>
   <style>
     :root {
-      --bg: #05070b;
-      --bg2: #0a0f18;
-      --panel: rgba(8, 13, 22, 0.95);
-      --panel-2: rgba(10, 16, 28, 0.96);
-      --line: rgba(117, 146, 194, 0.16);
-      --line-strong: rgba(117, 146, 194, 0.26);
-      --text: #f4f8ff;
-      --muted: #8f9bb2;
-      --soft: #b8c6db;
-      --cyan: #4ab8ff;
-      --cyan-2: #68d4ff;
-      --purple: #8a5cff;
-      --purple-2: #b77dff;
-      --red: #ff6a6a;
-      --shadow:
-        0 0 0 1px rgba(110, 150, 220, 0.08),
-        0 18px 45px rgba(0, 0, 0, 0.5),
-        0 0 60px rgba(74, 184, 255, 0.04);
-      --glow-blue:
-        0 0 0 1px rgba(74, 184, 255, 0.34),
-        0 0 20px rgba(74, 184, 255, 0.20),
-        0 0 42px rgba(74, 184, 255, 0.10),
-        inset 0 0 18px rgba(74, 184, 255, 0.05);
-      --glow-purple:
-        0 0 0 1px rgba(183, 125, 255, 0.34),
-        0 0 20px rgba(183, 125, 255, 0.20),
-        0 0 42px rgba(183, 125, 255, 0.10),
-        inset 0 0 18px rgba(183, 125, 255, 0.05);
-      --radius-outer: 28px;
-      --radius-inner: 18px;
-      --tile-cut: polygon(
-        10% 0%,
-        90% 0%,
+      --bg-1: #03060b;
+      --bg-2: #07101a;
+      --panel-a: rgba(8, 13, 23, 0.96);
+      --panel-b: rgba(10, 16, 28, 0.98);
+      --text: #f3f7ff;
+      --muted: #8d9bb0;
+      --line: rgba(150, 170, 205, 0.14);
+      --line-strong: rgba(150, 170, 205, 0.22);
+
+      --accent: #4ab8ff;
+      --accent-soft: rgba(74, 184, 255, 0.16);
+      --accent-line: rgba(74, 184, 255, 0.42);
+      --accent-glow-1: rgba(74, 184, 255, 0.26);
+      --accent-glow-2: rgba(74, 184, 255, 0.12);
+
+      --success: #3ad66f;
+      --success-soft: rgba(58, 214, 111, 0.15);
+      --success-line: rgba(58, 214, 111, 0.42);
+      --success-glow: rgba(58, 214, 111, 0.22);
+
+      --radius-shell: 28px;
+      --radius-inner: 22px;
+      --radius-btn: 10px;
+
+      --tile-shape: polygon(
+        9% 0%,
+        91% 0%,
         100% 16%,
         100% 84%,
-        90% 100%,
-        10% 100%,
+        91% 100%,
+        9% 100%,
         0% 84%,
         0% 16%
       );
@@ -57,13 +51,13 @@
       height: 100%;
       margin: 0;
       overflow: hidden;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 20% 20%, rgba(74, 184, 255, 0.08), transparent 24%),
-        radial-gradient(circle at 78% 30%, rgba(138, 92, 255, 0.08), transparent 24%),
-        radial-gradient(circle at 50% 90%, rgba(74, 184, 255, 0.05), transparent 30%),
-        linear-gradient(180deg, #04060a 0%, #050913 45%, #020408 100%);
+        radial-gradient(circle at 18% 20%, var(--accent-glow-2), transparent 24%),
+        radial-gradient(circle at 80% 25%, rgba(255,255,255,0.02), transparent 25%),
+        radial-gradient(circle at 50% 90%, var(--accent-glow-2), transparent 28%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2) 55%, #02050a 100%);
     }
 
     body::before {
@@ -74,15 +68,15 @@
       background:
         repeating-linear-gradient(
           to right,
-          rgba(255,255,255,0.02) 0px,
-          rgba(255,255,255,0.02) 1px,
+          rgba(255,255,255,0.018) 0px,
+          rgba(255,255,255,0.018) 1px,
           transparent 1px,
           transparent 110px
         ),
         repeating-linear-gradient(
           to bottom,
-          rgba(255,255,255,0.014) 0px,
-          rgba(255,255,255,0.014) 1px,
+          rgba(255,255,255,0.012) 0px,
+          rgba(255,255,255,0.012) 1px,
           transparent 1px,
           transparent 110px
         );
@@ -100,17 +94,17 @@
 
     .mdt-shell {
       width: min(1280px, 96vw);
-      height: min(740px, 90vh);
+      height: min(750px, 90vh);
       position: relative;
-      border-radius: var(--radius-outer);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 24%),
-        linear-gradient(180deg, #0a0f17, #070b12);
-      box-shadow:
-        0 0 0 1px rgba(138, 152, 176, 0.18),
-        0 0 0 2px rgba(9, 11, 16, 0.8) inset,
-        0 35px 80px rgba(0, 0, 0, 0.62);
+      border-radius: var(--radius-shell);
       overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 18%),
+        linear-gradient(180deg, #0a0f17, #060a11);
+      box-shadow:
+        0 0 0 1px rgba(155, 170, 196, 0.15),
+        inset 0 0 0 2px rgba(0, 0, 0, 0.36),
+        0 30px 80px rgba(0, 0, 0, 0.66);
     }
 
     .mdt-shell::before {
@@ -118,7 +112,7 @@
       position: absolute;
       inset: 10px;
       border-radius: 22px;
-      border: 1px solid rgba(135, 153, 185, 0.08);
+      border: 1px solid rgba(160, 177, 208, 0.08);
       pointer-events: none;
     }
 
@@ -128,17 +122,17 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at top center, rgba(255,255,255,0.04), transparent 35%),
-        linear-gradient(135deg, rgba(74, 184, 255, 0.03), transparent 30%, rgba(183, 125, 255, 0.02));
+        radial-gradient(circle at top center, rgba(255,255,255,0.035), transparent 30%),
+        linear-gradient(135deg, var(--accent-glow-2), transparent 30%, rgba(255,255,255,0.01));
     }
 
     .corner {
       position: absolute;
       width: 34px;
       height: 34px;
-      border: 2px solid rgba(145, 166, 202, 0.22);
-      opacity: 0.7;
-      z-index: 2;
+      border: 2px solid rgba(155, 175, 208, 0.2);
+      z-index: 5;
+      opacity: 0.8;
     }
 
     .corner.tl { top: 12px; left: 12px; border-right: none; border-bottom: none; border-radius: 12px 0 0 0; }
@@ -149,33 +143,45 @@
     .inner {
       position: absolute;
       inset: 26px;
-      border-radius: 20px;
+      border-radius: var(--radius-inner);
       background:
-        radial-gradient(circle at top left, rgba(74, 184, 255, 0.05), transparent 28%),
-        radial-gradient(circle at top right, rgba(183, 125, 255, 0.05), transparent 28%),
-        linear-gradient(180deg, rgba(12, 18, 31, 0.98), rgba(6, 10, 18, 0.99));
+        radial-gradient(circle at top left, var(--accent-glow-2), transparent 26%),
+        linear-gradient(180deg, var(--panel-b), var(--panel-a));
       box-shadow:
-        inset 0 0 0 1px rgba(122, 144, 180, 0.1),
-        inset 0 14px 22px rgba(255,255,255,0.015),
-        inset 0 -30px 60px rgba(0,0,0,0.4);
+        inset 0 0 0 1px rgba(130, 150, 182, 0.09),
+        inset 0 15px 24px rgba(255,255,255,0.015),
+        inset 0 -28px 60px rgba(0,0,0,0.42);
       padding: 28px 30px 24px;
-      display: grid;
+      z-index: 2;
+    }
+
+    .view {
+      width: 100%;
+      height: 100%;
+      display: none;
       grid-template-rows: auto 1fr auto;
       gap: 24px;
-      z-index: 1;
+    }
+
+    .view.active {
+      display: grid;
     }
 
     .header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 20px;
+      gap: 18px;
+    }
+
+    .brand-wrap {
+      width: 100%;
     }
 
     .brand {
       display: flex;
-      align-items: flex-start;
       gap: 14px;
+      align-items: flex-start;
     }
 
     .brand-icon {
@@ -183,58 +189,73 @@
       height: 26px;
       margin-top: 2px;
       border-radius: 999px;
-      position: relative;
       background:
-        radial-gradient(circle at 35% 35%, #ffffff, #dff5ff 26%, #5ccfff 45%, #1e2f45 72%);
+        radial-gradient(circle at 35% 35%, #ffffff, #def2ff 26%, var(--accent) 48%, #1d2c42 75%);
       box-shadow:
-        0 0 14px rgba(74, 184, 255, 0.22),
-        0 0 24px rgba(74, 184, 255, 0.12);
+        0 0 14px var(--accent-glow-1),
+        0 0 28px var(--accent-glow-2);
     }
 
     .brand-copy h1 {
       margin: 0;
       font-size: 28px;
       font-weight: 800;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.5px;
     }
 
     .brand-copy p {
       margin: 6px 0 0;
+      max-width: 380px;
       color: var(--muted);
       font-size: 12px;
       line-height: 1.5;
-      max-width: 360px;
+    }
+
+    .dash-line {
+      width: 100%;
+      height: 1px;
+      margin-top: 10px;
+      background: linear-gradient(90deg, transparent, rgba(155, 175, 208, 0.24), transparent);
+    }
+
+    .close-btn,
+    .back-btn {
+      min-width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.18s ease;
+      box-shadow: inset 0 0 10px rgba(255,255,255,0.02);
     }
 
     .close-btn {
-      width: 34px;
-      height: 34px;
-      border: 1px solid rgba(255, 110, 110, 0.42);
-      background:
-        linear-gradient(180deg, rgba(255, 106, 106, 0.12), rgba(255, 106, 106, 0.04));
-      color: #ff9797;
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      font-size: 15px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow:
-        0 0 14px rgba(255, 106, 106, 0.12),
-        inset 0 0 10px rgba(255,255,255,0.03);
-      transition: 0.18s ease;
+      border-color: rgba(255, 110, 110, 0.38);
+      color: #ff9a9a;
+      background: linear-gradient(180deg, rgba(255, 106, 106, 0.11), rgba(255, 106, 106, 0.04));
+      box-shadow: 0 0 16px rgba(255, 106, 106, 0.1);
     }
 
-    .close-btn:hover {
+    .back-btn:hover,
+    .close-btn:hover,
+    .theme-btn:hover,
+    .enter-btn:hover,
+    .sub-btn:hover,
+    .search-btn:hover {
       transform: translateY(-1px);
       filter: brightness(1.08);
     }
 
-    .dash-line {
-      height: 1px;
-      width: 100%;
-      background: linear-gradient(90deg, transparent, rgba(108, 129, 168, 0.22), transparent);
-      margin-top: 8px;
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
 
     .tile-grid {
@@ -246,41 +267,38 @@
 
     .tile {
       position: relative;
-      min-height: 136px;
-      clip-path: var(--tile-cut);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008)),
-        linear-gradient(180deg, rgba(10, 18, 31, 0.98), rgba(6, 11, 20, 0.98));
+      min-height: 140px;
+      clip-path: var(--tile-shape);
       border: none;
       color: inherit;
       cursor: pointer;
       padding: 20px 18px 18px;
       text-align: center;
-      isolation: isolate;
-      transition: transform 0.2s ease, filter 0.2s ease;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008)),
+        linear-gradient(180deg, rgba(10, 18, 32, 0.98), rgba(5, 10, 18, 0.98));
+      transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
     }
 
     .tile::before {
       content: "";
       position: absolute;
       inset: 1px;
-      clip-path: var(--tile-cut);
-      border: 1px solid rgba(113, 135, 174, 0.18);
+      clip-path: var(--tile-shape);
+      border: 1px solid rgba(150, 170, 205, 0.16);
       pointer-events: none;
-      z-index: -1;
     }
 
     .tile::after {
       content: "";
       position: absolute;
       inset: 0;
-      clip-path: var(--tile-cut);
+      clip-path: var(--tile-shape);
       pointer-events: none;
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.025), transparent 28%),
-        radial-gradient(circle at top center, rgba(74, 184, 255, 0.035), transparent 45%);
-      opacity: 0.9;
-      z-index: -1;
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 26%),
+        radial-gradient(circle at top center, var(--accent-glow-2), transparent 48%);
+      opacity: 0.95;
     }
 
     .tile:hover {
@@ -288,46 +306,16 @@
       filter: brightness(1.05);
     }
 
-    .tile.active.blue {
-      box-shadow: var(--glow-blue);
+    .tile.active {
+      box-shadow:
+        0 0 0 1px var(--accent-line),
+        0 0 18px var(--accent-glow-1),
+        0 0 42px var(--accent-glow-2),
+        inset 0 0 18px rgba(255,255,255,0.03);
     }
 
-    .tile.active.purple {
-      box-shadow: var(--glow-purple);
-    }
-
-    .tile.active.blue::before {
-      border-color: rgba(74, 184, 255, 0.58);
-    }
-
-    .tile.active.purple::before {
-      border-color: rgba(183, 125, 255, 0.58);
-    }
-
-    .tile-icon {
-      width: 42px;
-      height: 42px;
-      margin: 0 auto 12px;
-      display: grid;
-      place-items: center;
-      color: #dbeaff;
-      opacity: 0.92;
-    }
-
-    .tile-title {
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: 0.8px;
-    }
-
-    .tile-desc {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.45;
-      max-width: 190px;
-      margin-left: auto;
-      margin-right: auto;
+    .tile.active::before {
+      border-color: var(--accent-line);
     }
 
     .tile-dot {
@@ -338,30 +326,59 @@
       height: 7px;
       border-radius: 999px;
       background: transparent;
-      box-shadow: 0 0 0 1px rgba(117, 146, 194, 0.24);
+      box-shadow: 0 0 0 1px rgba(150,170,205,0.22);
+      z-index: 2;
     }
 
-    .tile.active.blue .tile-dot {
-      background: var(--cyan-2);
-      box-shadow: 0 0 12px rgba(74, 184, 255, 0.75);
+    .tile.active .tile-dot {
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow-1);
     }
 
-    .tile.active.purple .tile-dot {
-      background: var(--purple-2);
-      box-shadow: 0 0 12px rgba(183, 125, 255, 0.75);
+    .tile-icon {
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 12px;
+      display: grid;
+      place-items: center;
+      opacity: 0.95;
+      z-index: 2;
+      position: relative;
+    }
+
+    .tile-title,
+    .tile-desc {
+      z-index: 2;
+      position: relative;
+    }
+
+    .tile-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+    }
+
+    .tile-desc {
+      margin-top: 8px;
+      font-size: 11px;
+      line-height: 1.45;
+      color: var(--muted);
+      max-width: 190px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .footer {
       display: flex;
-      align-items: end;
       justify-content: space-between;
+      align-items: end;
       gap: 24px;
     }
 
     .theme-area h3 {
       margin: 0 0 6px;
       font-size: 13px;
-      color: var(--soft);
+      color: #cfe1f5;
       font-weight: 700;
     }
 
@@ -379,94 +396,245 @@
     }
 
     .theme-btn,
-    .ghost-btn {
-      height: 34px;
+    .enter-btn,
+    .sub-btn,
+    .search-btn {
+      height: 36px;
       padding: 0 14px;
-      border-radius: 8px;
+      border-radius: var(--radius-btn);
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 0.45px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
       cursor: pointer;
       transition: 0.18s ease;
     }
 
     .theme-btn {
-      border: 1px solid rgba(74, 184, 255, 0.36);
-      color: #dff5ff;
-      background:
-        linear-gradient(180deg, rgba(74, 184, 255, 0.18), rgba(74, 184, 255, 0.06));
+      border: 1px solid var(--accent-line);
+      color: #eff8ff;
+      background: linear-gradient(180deg, var(--accent-soft), rgba(255,255,255,0.03));
       box-shadow:
-        0 0 16px rgba(74, 184, 255, 0.10),
-        inset 0 0 8px rgba(255,255,255,0.02);
+        0 0 18px var(--accent-glow-2),
+        inset 0 0 10px rgba(255,255,255,0.02);
     }
 
-    .ghost-btn {
-      border: 1px solid rgba(117, 146, 194, 0.18);
-      color: var(--muted);
-      background: rgba(255,255,255,0.02);
+    .enter-btn,
+    .sub-btn,
+    .search-btn {
+      border: 1px solid var(--success-line);
+      color: #dbffe8;
+      background: linear-gradient(180deg, var(--success-soft), rgba(255,255,255,0.03));
+      box-shadow:
+        0 0 18px var(--success-glow),
+        inset 0 0 10px rgba(255,255,255,0.02);
     }
 
-    .theme-btn:hover,
-    .ghost-btn:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.08);
+    .content-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+      min-height: 0;
     }
 
-    .preview-panel {
-      position: absolute;
-      right: 30px;
-      bottom: 76px;
-      width: 310px;
-      border-radius: 16px;
-      padding: 16px 16px 14px;
+    .side-panel,
+    .main-panel {
+      min-height: 0;
+      border-radius: 18px;
       background:
-        linear-gradient(180deg, rgba(11, 18, 30, 0.95), rgba(7, 11, 19, 0.98));
-      border: 1px solid rgba(117, 146, 194, 0.16);
-      box-shadow: var(--shadow);
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008)),
+        linear-gradient(180deg, rgba(9, 15, 25, 0.97), rgba(6, 10, 18, 0.98));
+      border: 1px solid rgba(150, 170, 205, 0.14);
+      box-shadow:
+        inset 0 0 14px rgba(255,255,255,0.02),
+        0 0 24px rgba(0,0,0,0.18);
     }
 
-    .preview-label {
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 8px;
+    .side-panel {
+      padding: 18px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 16px;
     }
 
-    .preview-title {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 8px;
+    .side-section h4,
+    .main-header h3 {
+      margin: 0 0 8px;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      color: #dcebff;
     }
 
-    .preview-desc {
+    .side-section p {
+      margin: 0;
       font-size: 12px;
-      line-height: 1.55;
-      color: var(--soft);
-      margin-bottom: 14px;
+      line-height: 1.45;
+      color: var(--muted);
     }
 
-    .preview-tags {
-      display: flex;
+    .module-badge {
+      display: inline-flex;
+      align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, var(--accent-soft), rgba(255,255,255,0.02));
+      border: 1px solid var(--accent-line);
+      box-shadow: 0 0 18px var(--accent-glow-2);
+      width: fit-content;
+      font-size: 12px;
+      font-weight: 800;
     }
 
-    .preview-tag {
-      padding: 6px 9px;
+    .sub-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .sub-btn {
+      justify-content: flex-start;
+      text-align: left;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid rgba(150,170,205,0.16);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .sub-btn.active {
+      border-color: var(--accent-line);
+      box-shadow:
+        0 0 18px var(--accent-glow-2),
+        inset 0 0 10px rgba(255,255,255,0.02);
+      background: linear-gradient(180deg, var(--accent-soft), rgba(255,255,255,0.02));
+    }
+
+    .main-panel {
+      padding: 18px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 16px;
+      overflow: hidden;
+    }
+
+    .main-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .main-header p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+    }
+
+    .search-box {
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(150,170,205,0.16);
+      background: rgba(255,255,255,0.03);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      box-shadow: inset 0 0 10px rgba(255,255,255,0.02);
+    }
+
+    .search-box input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .table-wrap {
+      min-height: 0;
+      overflow: auto;
+      border-radius: 16px;
+      border: 1px solid rgba(150,170,205,0.12);
+      background: rgba(255,255,255,0.015);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      text-align: left;
+      padding: 14px 16px;
+      font-size: 11px;
+      letter-spacing: 0.7px;
+      color: #c6dbf2;
+      border-bottom: 1px solid rgba(150,170,205,0.14);
+      background: rgba(255,255,255,0.02);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    tbody td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(150,170,205,0.08);
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    tbody tr {
+      transition: background 0.18s ease, box-shadow 0.18s ease;
+      cursor: pointer;
+    }
+
+    tbody tr:hover {
+      background: rgba(255,255,255,0.03);
+      box-shadow: inset 0 0 0 1px rgba(150,170,205,0.08);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
       border-radius: 999px;
       font-size: 10px;
-      font-weight: 700;
-      color: #e8f4ff;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(117, 146, 194, 0.16);
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      border: 1px solid var(--accent-line);
+      background: linear-gradient(180deg, var(--accent-soft), rgba(255,255,255,0.02));
+      box-shadow: 0 0 14px var(--accent-glow-2);
+    }
+
+    .view-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.45;
+      max-width: 500px;
     }
 
     .toast-wrap {
       position: fixed;
-      top: 22px;
-      right: 22px;
+      top: 20px;
+      right: 20px;
       display: grid;
       gap: 10px;
       z-index: 9999;
@@ -477,19 +645,19 @@
       min-width: 260px;
       max-width: 320px;
       border-radius: 14px;
-      padding: 14px 14px 13px;
-      background: rgba(8, 13, 22, 0.96);
-      border: 1px solid rgba(117, 146, 194, 0.2);
+      padding: 14px;
+      background: rgba(8, 13, 23, 0.96);
+      border: 1px solid rgba(150,170,205,0.18);
       box-shadow:
-        0 0 22px rgba(74, 184, 255, 0.08),
-        0 10px 30px rgba(0, 0, 0, 0.44);
-      animation: toastIn 0.22s ease;
+        0 0 22px var(--accent-glow-2),
+        0 10px 30px rgba(0,0,0,0.45);
+      animation: toastIn 0.2s ease;
     }
 
     .toast strong {
       display: block;
-      font-size: 13px;
       margin-bottom: 5px;
+      font-size: 13px;
     }
 
     .toast p {
@@ -510,24 +678,13 @@
       }
     }
 
-    @media (max-width: 1100px) {
+    @media (max-width: 1150px) {
       .tile-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .preview-panel {
-        position: static;
-        width: 100%;
-        margin-top: 18px;
-      }
-
-      .inner {
-        overflow: auto;
-      }
-
-      .footer {
-        align-items: flex-start;
-        flex-direction: column;
+      .content-layout {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -536,8 +693,20 @@
         grid-template-columns: 1fr;
       }
 
-      .brand-copy h1 {
-        font-size: 22px;
+      .footer,
+      .view-footer,
+      .main-header,
+      .header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+
+      .screen {
+        padding: 12px;
       }
 
       .inner {
@@ -545,8 +714,8 @@
         padding: 22px 20px 20px;
       }
 
-      .screen {
-        padding: 12px;
+      .brand-copy h1 {
+        font-size: 22px;
       }
     }
   </style>
@@ -562,256 +731,782 @@
       <span class="corner br"></span>
 
       <div class="inner">
-        <header>
-          <div class="header">
-            <div style="width:100%;">
+        <!-- HOME VIEW -->
+        <section class="view active" id="homeView">
+          <header class="header">
+            <div class="brand-wrap">
               <div class="brand">
                 <div class="brand-icon"></div>
                 <div class="brand-copy">
                   <h1>LSPD MDT</h1>
                   <p>
-                    Providing professional law enforcement services through a secure
-                    and modern mission data terminal.
+                    Secure internal terminal for records, dispatch activity, unit access,
+                    and field response coordination.
                   </p>
                 </div>
               </div>
               <div class="dash-line"></div>
             </div>
 
-            <button class="close-btn" id="closeBtn" aria-label="Close">×</button>
-          </div>
-        </header>
-
-        <main class="tile-grid" id="tileGrid">
-          <button class="tile active blue" data-title="UNITS" data-color="blue" data-desc="Track active officers, patrol groups, assigned vehicles, and current status changes." data-tags="Roster, Patrols, Activity">
-            <span class="tile-dot"></span>
-            <div class="tile-icon">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                <path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 19c0-2.2 2.8-4 5-4s5 1.8 5 4M11 19c.3-1.5 2.3-3 5-3 2.2 0 5 1.3 5 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+            <div class="header-actions">
+              <button class="close-btn" id="closeBtn" aria-label="Close">×</button>
             </div>
-            <div class="tile-title">UNITS</div>
-            <div class="tile-desc">Monitor all online units, shifts, and field assignments.</div>
-          </button>
+          </header>
 
-          <button class="tile purple" data-title="REPORTS" data-color="purple" data-desc="Create, edit, and archive incident reports, officer notes, and detailed written statements." data-tags="Incidents, Notes, Archive">
-            <span class="tile-dot"></span>
-            <div class="tile-icon">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                <path d="M8 3h6l5 5v13H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                <path d="M14 3v5h5M10 12h6M10 16h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-              </svg>
+          <main class="tile-grid" id="tileGrid">
+            <button class="tile active" data-module="UNITS" data-desc="Monitor active officers, current callsigns, patrol assignments, and response status.">
+              <span class="tile-dot"></span>
+              <div class="tile-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 19c0-2.2 2.8-4 5-4s5 1.8 5 4M11 19c.3-1.5 2.3-3 5-3 2.2 0 5 1.3 5 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="tile-title">UNITS</div>
+              <div class="tile-desc">Monitor live unit status and current patrol activity.</div>
+            </button>
+
+            <button class="tile" data-module="REPORTS" data-desc="Create and review incident reports, officer notes, statements, and logged documentation.">
+              <span class="tile-dot"></span>
+              <div class="tile-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 3h6l5 5v13H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                  <path d="M14 3v5h5M10 12h6M10 16h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="tile-title">REPORTS</div>
+              <div class="tile-desc">Write and review internal paperwork and case notes.</div>
+            </button>
+
+            <button class="tile" data-module="EVIDENCE" data-desc="Review logged evidence, attachment history, locker references, and forensic records.">
+              <span class="tile-dot"></span>
+              <div class="tile-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 7h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z" stroke="currentColor" stroke-width="1.7"/>
+                  <path d="M9 7V5a3 3 0 0 1 6 0v2M9 12h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="tile-title">EVIDENCE</div>
+              <div class="tile-desc">Track secured items and evidence chain records.</div>
+            </button>
+
+            <button class="tile" data-module="CALLS" data-desc="Access dispatch traffic, active emergency calls, and current response priority logs.">
+              <span class="tile-dot"></span>
+              <div class="tile-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 13.5c6.5-6.5 13-6.5 14 0M7.5 16c4-4 8-4 9 0M12 19h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="tile-title">CALLS</div>
+              <div class="tile-desc">Handle emergency traffic and live service requests.</div>
+            </button>
+
+            <button class="tile" data-module="CITIZENS" data-desc="Search citizen profiles, identifiers, prior flags, licenses, and general record data.">
+              <span class="tile-dot"></span>
+              <div class="tile-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.7"/>
+                  <path d="M20 20l-4.2-4.2M11 8v6M8 11h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="tile-title">CITIZENS</div>
+              <div class="tile-desc">Find citizens, linked records, and identity details fast.</div>
+            </button>
+
+            <button class="tile" data-module="OPERATIONS" data-desc="Coordinate higher priority scenes, tactical planning, and organized field assignments.">
+              <span class="tile-dot"></span>
+              <div class="tile-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 14 12 4l8 10-8 6-8-6Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                  <path d="M12 9v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="tile-title">OPERATIONS</div>
+              <div class="tile-desc">Coordinate scenes, plans, teams, and response structure.</div>
+            </button>
+
+            <button class="tile" data-module="BOLOS" data-desc="Publish be-on-the-lookout alerts for active persons, vehicles, and immediate watch targets.">
+              <span class="tile-dot"></span>
+              <div class="tile-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3 4 7v5c0 5 3.5 7.8 8 9 4.5-1.2 8-4 8-9V7l-8-4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                  <path d="M12 9v3M12 16h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="tile-title">BOLOS</div>
+              <div class="tile-desc">Push alerts and threat notices to active officers.</div>
+            </button>
+
+            <button class="tile" data-module="SETTINGS" data-desc="Adjust theme colors, terminal preferences, layout behavior, and saved visual options.">
+              <span class="tile-dot"></span>
+              <div class="tile-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" stroke="currentColor" stroke-width="1.7"/>
+                  <path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a1.7 1.7 0 1 1-2.4 2.4l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a1.7 1.7 0 1 1-3.4 0v-.2a1 1 0 0 0-.7-1 1 1 0 0 0-1.1.2l-.1.1a1.7 1.7 0 1 1-2.4-2.4l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a1.7 1.7 0 1 1 0-3.4h.2a1 1 0 0 0 1-.7 1 1 0 0 0-.2-1.1l-.1-.1a1.7 1.7 0 1 1 2.4-2.4l.1.1a1 1 0 0 0 1.1.2 1 1 0 0 0 .6-.9V4a1.7 1.7 0 1 1 3.4 0v.2a1 1 0 0 0 .7 1 1 1 0 0 0 1.1-.2l.1-.1a1.7 1.7 0 1 1 2.4 2.4l-.1.1a1 1 0 0 0-.2 1.1 1 1 0 0 0 .9.6h.2a1.7 1.7 0 1 1 0 3.4h-.2a1 1 0 0 0-1 .7Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="tile-title">SETTINGS</div>
+              <div class="tile-desc">Adjust interface color and saved terminal options.</div>
+            </button>
+          </main>
+
+          <footer class="footer">
+            <div class="theme-area">
+              <h3>Interface Theme</h3>
+              <p>
+                Choose a terminal highlight color. The glow updates across the entire interface.
+              </p>
             </div>
-            <div class="tile-title">REPORTS</div>
-            <div class="tile-desc">Write and review field reports and internal case paperwork.</div>
-          </button>
 
-          <button class="tile blue" data-title="EVIDENCE" data-color="blue" data-desc="Catalog evidence, attach photos, track lockers, and maintain chain-of-custody references." data-tags="Locker, Photos, Chain">
-            <span class="tile-dot"></span>
-            <div class="tile-icon">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                <path d="M4 7h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z" stroke="currentColor" stroke-width="1.7"/>
-                <path d="M9 7V5a3 3 0 0 1 6 0v2M9 12h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-              </svg>
+            <div class="theme-controls">
+              <button class="theme-btn" id="chooseColorBtn">Choose Color</button>
+              <button class="enter-btn" id="enterBtn">Enter</button>
             </div>
-            <div class="tile-title">EVIDENCE</div>
-            <div class="tile-desc">Secure records for seized items and forensic attachments.</div>
-          </button>
+          </footer>
+        </section>
 
-          <button class="tile purple" data-title="CALLS" data-color="purple" data-desc="View active dispatch calls, recent 911 logs, unit attachments, and live response priority." data-tags="Dispatch, 911, Priority">
-            <span class="tile-dot"></span>
-            <div class="tile-icon">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                <path d="M5 13.5c6.5-6.5 13-6.5 14 0M7.5 16c4-4 8-4 9 0M12 19h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-              </svg>
+        <!-- MODULE VIEW -->
+        <section class="view" id="moduleView">
+          <header class="header">
+            <div class="brand-wrap">
+              <div class="brand">
+                <div class="brand-icon"></div>
+                <div class="brand-copy">
+                  <h1 id="moduleTitle">UNITS</h1>
+                  <p id="moduleDesc">
+                    Monitor active officers, current callsigns, patrol assignments, and response status.
+                  </p>
+                </div>
+              </div>
+              <div class="dash-line"></div>
             </div>
-            <div class="tile-title">CALLS</div>
-            <div class="tile-desc">Handle emergency traffic and active service requests.</div>
-          </button>
 
-          <button class="tile blue" data-title="PERSONS" data-color="blue" data-desc="Search profiles, licenses, prior charges, affiliations, notes, and identification history." data-tags="Profiles, Records, Search">
-            <span class="tile-dot"></span>
-            <div class="tile-icon">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.7"/>
-                <path d="M20 20l-4.2-4.2M11 8v6M8 11h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-              </svg>
+            <div class="header-actions">
+              <button class="back-btn" id="backBtn">←</button>
+              <button class="close-btn" id="moduleCloseBtn">×</button>
             </div>
-            <div class="tile-title">PERSONS</div>
-            <div class="tile-desc">Find citizens, aliases, and identity-linked information fast.</div>
-          </button>
+          </header>
 
-          <button class="tile purple" data-title="OPERATIONS" data-color="purple" data-desc="Manage tactical planning, raid prep, active scenes, special response notes, and assignments." data-tags="Tactical, Scenes, Plans">
-            <span class="tile-dot"></span>
-            <div class="tile-icon">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                <path d="M4 14 12 4l8 10-8 6-8-6Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                <path d="M12 9v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-              </svg>
+          <main class="content-layout">
+            <aside class="side-panel">
+              <div class="side-section">
+                <div class="module-badge" id="moduleBadge">ACTIVE: UNITS</div>
+              </div>
+
+              <div class="side-section">
+                <h4>Quick Sections</h4>
+                <p>Select a section to preview how the inner MDT pages could swap content.</p>
+              </div>
+
+              <div class="sub-list" id="subList">
+                <button class="sub-btn active" data-sub="Overview">Overview</button>
+                <button class="sub-btn" data-sub="Database">Database</button>
+                <button class="sub-btn" data-sub="Assignments">Assignments</button>
+                <button class="sub-btn" data-sub="Archive">Archive</button>
+              </div>
+            </aside>
+
+            <section class="main-panel">
+              <div class="main-header">
+                <div>
+                  <h3 id="mainSectionTitle">Overview</h3>
+                  <p id="mainSectionDesc">Preview content in the same MDT style after entering a selected module.</p>
+                </div>
+                <div class="status-pill" id="statusPill">ONLINE</div>
+              </div>
+
+              <div class="search-row">
+                <div class="search-box">
+                  <span>🔎</span>
+                  <input id="searchInput" type="text" placeholder="Search records, names, unit IDs..." />
+                </div>
+                <button class="search-btn" id="searchBtn">Search</button>
+              </div>
+
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr id="tableHeadRow"></tr>
+                  </thead>
+                  <tbody id="tableBody"></tbody>
+                </table>
+              </div>
+            </section>
+          </main>
+
+          <footer class="view-footer">
+            <div class="footer-note" id="footerNote">
+              Internal terminal preview only. Later this can be wired into real NUI callbacks, searches, and database data.
             </div>
-            <div class="tile-title">OPERATIONS</div>
-            <div class="tile-desc">Coordinate bigger scenes, team planning, and action tasks.</div>
-          </button>
-
-          <button class="tile blue" data-title="BOLOS" data-color="blue" data-desc="Publish be-on-the-lookout alerts for vehicles, persons, armed suspects, and wanted priorities." data-tags="Alerts, Wanted, Watchlist">
-            <span class="tile-dot"></span>
-            <div class="tile-icon">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                <path d="M12 3 4 7v5c0 5 3.5 7.8 8 9 4.5-1.2 8-4 8-9V7l-8-4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                <path d="M12 9v3M12 16h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="tile-title">BOLOS</div>
-            <div class="tile-desc">Push alerts and keep officers updated on immediate threats.</div>
-          </button>
-
-          <button class="tile purple" data-title="SETTINGS" data-color="purple" data-desc="Configure theme presets, layout options, profile preferences, and terminal accessibility features." data-tags="Theme, Layout, Profile">
-            <span class="tile-dot"></span>
-            <div class="tile-icon">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" stroke="currentColor" stroke-width="1.7"/>
-                <path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a1.7 1.7 0 1 1-2.4 2.4l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a1.7 1.7 0 1 1-3.4 0v-.2a1 1 0 0 0-.7-1 1 1 0 0 0-1.1.2l-.1.1a1.7 1.7 0 1 1-2.4-2.4l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a1.7 1.7 0 1 1 0-3.4h.2a1 1 0 0 0 1-.7 1 1 0 0 0-.2-1.1l-.1-.1a1.7 1.7 0 1 1 2.4-2.4l.1.1a1 1 0 0 0 1.1.2 1 1 0 0 0 .6-.9V4a1.7 1.7 0 1 1 3.4 0v.2a1 1 0 0 0 .7 1 1 1 0 0 0 1.1-.2l.1-.1a1.7 1.7 0 1 1 2.4 2.4l-.1.1a1 1 0 0 0-.2 1.1 1 1 0 0 0 .9.6h.2a1.7 1.7 0 1 1 0 3.4h-.2a1 1 0 0 0-1 .7Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="tile-title">SETTINGS</div>
-            <div class="tile-desc">Adjust interface color, layout, and terminal preferences.</div>
-          </button>
-        </main>
-
-        <div class="footer">
-          <div class="theme-area">
-            <h3>Interface Theme</h3>
-            <p>Select your preferred highlight color for the MDT interface. Saved locally.</p>
-          </div>
-
-          <div class="theme-controls">
-            <button class="theme-btn" id="chooseColorBtn">Choose Color</button>
-            <button class="ghost-btn" id="resetBtn">Reset</button>
-          </div>
-        </div>
-
-        <aside class="preview-panel" id="previewPanel">
-          <div class="preview-label">Selected Module</div>
-          <div class="preview-title" id="previewTitle">UNITS</div>
-          <div class="preview-desc" id="previewDesc">
-            Track active officers, patrol groups, assigned vehicles, and current status changes.
-          </div>
-          <div class="preview-tags" id="previewTags">
-            <span class="preview-tag">Roster</span>
-            <span class="preview-tag">Patrols</span>
-            <span class="preview-tag">Activity</span>
-          </div>
-        </aside>
+            <button class="enter-btn" id="actionBtn">Open Record</button>
+          </footer>
+        </section>
       </div>
     </section>
   </div>
 
   <script>
+    const THEMES = [
+      {
+        name: "Blue",
+        accent: "#4ab8ff",
+        soft: "rgba(74, 184, 255, 0.16)",
+        line: "rgba(74, 184, 255, 0.44)",
+        glow1: "rgba(74, 184, 255, 0.28)",
+        glow2: "rgba(74, 184, 255, 0.12)"
+      },
+      {
+        name: "Purple",
+        accent: "#a56dff",
+        soft: "rgba(165, 109, 255, 0.16)",
+        line: "rgba(165, 109, 255, 0.44)",
+        glow1: "rgba(165, 109, 255, 0.28)",
+        glow2: "rgba(165, 109, 255, 0.12)"
+      },
+      {
+        name: "Red",
+        accent: "#ff5f6d",
+        soft: "rgba(255, 95, 109, 0.16)",
+        line: "rgba(255, 95, 109, 0.44)",
+        glow1: "rgba(255, 95, 109, 0.28)",
+        glow2: "rgba(255, 95, 109, 0.12)"
+      },
+      {
+        name: "Orange",
+        accent: "#ff9f43",
+        soft: "rgba(255, 159, 67, 0.18)",
+        line: "rgba(255, 159, 67, 0.46)",
+        glow1: "rgba(255, 159, 67, 0.28)",
+        glow2: "rgba(255, 159, 67, 0.12)"
+      }
+    ];
+
+    const MODULE_DATA = {
+      UNITS: {
+        description: "Monitor active officers, current callsigns, patrol assignments, and response status.",
+        sections: {
+          Overview: {
+            columns: ["Unit", "Officer", "Division", "Status"],
+            rows: [
+              ["A-12", "Sgt. Mason Hale", "Patrol", "10-8"],
+              ["B-07", "Ofc. Elena Cruz", "Traffic", "10-11"],
+              ["K-21", "Dep. Ryan Cole", "K9", "10-23"],
+              ["AIR-1", "Pilot J. Mercer", "Air Support", "Available"]
+            ]
+          },
+          Database: {
+            columns: ["Badge", "Name", "Rank", "Last Login"],
+            rows: [
+              ["#184", "Mason Hale", "Sergeant", "2 min ago"],
+              ["#225", "Elena Cruz", "Officer", "5 min ago"],
+              ["#143", "Ryan Cole", "Deputy", "9 min ago"],
+              ["#011", "J. Mercer", "Pilot", "14 min ago"]
+            ]
+          },
+          Assignments: {
+            columns: ["Callsign", "Vehicle", "Sector", "Task"],
+            rows: [
+              ["A-12", "Buffalo STX", "North", "Routine Patrol"],
+              ["B-07", "Scout Cruiser", "Downtown", "Traffic Detail"],
+              ["K-21", "K9 SUV", "East", "Support Unit"],
+              ["AIR-1", "Maverick", "Citywide", "Overwatch"]
+            ]
+          },
+          Archive: {
+            columns: ["Date", "Unit", "Action", "Result"],
+            rows: [
+              ["06/11", "A-12", "Felony Stop", "Cleared"],
+              ["06/11", "B-07", "Road Closure", "Filed"],
+              ["06/10", "K-21", "Evidence Assist", "Logged"],
+              ["06/10", "AIR-1", "Pursuit Support", "Completed"]
+            ]
+          }
+        }
+      },
+      REPORTS: {
+        description: "Create and review incident reports, officer notes, statements, and logged documentation.",
+        sections: {
+          Overview: {
+            columns: ["Report ID", "Type", "Officer", "Status"],
+            rows: [
+              ["R-1041", "Incident", "M. Hale", "Draft"],
+              ["R-1042", "Arrest", "E. Cruz", "Submitted"],
+              ["R-1043", "Evidence", "R. Cole", "Pending"],
+              ["R-1044", "Statement", "J. Mercer", "Reviewed"]
+            ]
+          },
+          Database: {
+            columns: ["Report ID", "Title", "Created", "Linked Case"],
+            rows: [
+              ["R-1041", "Downtown Disturbance", "Today", "C-301"],
+              ["R-1042", "Vehicle Pursuit", "Today", "C-302"],
+              ["R-1043", "Narcotics Locker", "Yesterday", "C-296"],
+              ["R-1044", "Officer Statement", "Yesterday", "C-295"]
+            ]
+          },
+          Assignments: {
+            columns: ["Officer", "Open Reports", "Urgent", "Needs Review"],
+            rows: [
+              ["M. Hale", "3", "1", "Yes"],
+              ["E. Cruz", "2", "0", "No"],
+              ["R. Cole", "4", "2", "Yes"],
+              ["J. Mercer", "1", "0", "No"]
+            ]
+          },
+          Archive: {
+            columns: ["Date", "Report ID", "Action", "Result"],
+            rows: [
+              ["06/11", "R-1033", "Closed", "Archived"],
+              ["06/10", "R-1028", "Revised", "Updated"],
+              ["06/10", "R-1024", "Approved", "Finalized"],
+              ["06/09", "R-1019", "Flagged", "Supervisor Review"]
+            ]
+          }
+        }
+      },
+      EVIDENCE: {
+        description: "Review logged evidence, attachment history, locker references, and forensic records.",
+        sections: {
+          Overview: {
+            columns: ["Locker", "Item", "Case", "State"],
+            rows: [
+              ["L-18", "Handgun", "C-301", "Stored"],
+              ["L-07", "Phone", "C-295", "Tagged"],
+              ["L-32", "Cash Bundle", "C-288", "Awaiting Review"],
+              ["L-11", "Knife", "C-289", "Released"]
+            ]
+          },
+          Database: {
+            columns: ["Evidence ID", "Type", "Logged By", "Date"],
+            rows: [
+              ["E-990", "Weapon", "M. Hale", "Today"],
+              ["E-991", "Electronics", "E. Cruz", "Today"],
+              ["E-992", "Currency", "R. Cole", "Yesterday"],
+              ["E-993", "Sharp Object", "J. Mercer", "Yesterday"]
+            ]
+          },
+          Assignments: {
+            columns: ["Case", "Assigned Tech", "Priority", "ETA"],
+            rows: [
+              ["C-301", "Forensics A", "High", "15 min"],
+              ["C-295", "Forensics B", "Medium", "25 min"],
+              ["C-288", "Lab Intake", "High", "12 min"],
+              ["C-289", "Locker Review", "Low", "45 min"]
+            ]
+          },
+          Archive: {
+            columns: ["Date", "Evidence ID", "Action", "Result"],
+            rows: [
+              ["06/11", "E-982", "Transferred", "Confirmed"],
+              ["06/10", "E-973", "Analyzed", "Report Attached"],
+              ["06/09", "E-970", "Returned", "Signed Off"],
+              ["06/09", "E-968", "Sealed", "Stored"]
+            ]
+          }
+        }
+      },
+      CALLS: {
+        description: "Access dispatch traffic, active emergency calls, and current response priority logs.",
+        sections: {
+          Overview: {
+            columns: ["Call ID", "Type", "Location", "Priority"],
+            rows: [
+              ["911-201", "Shots Fired", "Mirror Park", "High"],
+              ["911-202", "Traffic Stop Assist", "Alta St", "Medium"],
+              ["911-203", "Disturbance", "Vespucci", "Low"],
+              ["911-204", "Vehicle Theft", "Strawberry", "High"]
+            ]
+          },
+          Database: {
+            columns: ["Call ID", "Opened", "Units Attached", "Status"],
+            rows: [
+              ["911-201", "1 min ago", "4", "Active"],
+              ["911-202", "3 min ago", "2", "Monitoring"],
+              ["911-203", "8 min ago", "1", "Queued"],
+              ["911-204", "11 min ago", "3", "Dispatching"]
+            ]
+          },
+          Assignments: {
+            columns: ["Unit", "Attached Call", "Role", "Status"],
+            rows: [
+              ["A-12", "911-201", "Primary", "Responding"],
+              ["B-07", "911-202", "Traffic", "On Scene"],
+              ["K-21", "911-204", "Support", "En Route"],
+              ["AIR-1", "911-201", "Overwatch", "Airborne"]
+            ]
+          },
+          Archive: {
+            columns: ["Date", "Call ID", "Outcome", "Supervisor"],
+            rows: [
+              ["06/11", "911-190", "Resolved", "M. Hale"],
+              ["06/10", "911-186", "Arrest Made", "E. Cruz"],
+              ["06/10", "911-183", "False Alarm", "R. Cole"],
+              ["06/09", "911-177", "Filed", "J. Mercer"]
+            ]
+          }
+        }
+      },
+      CITIZENS: {
+        description: "Search citizen profiles, identifiers, prior flags, licenses, and general record data.",
+        sections: {
+          Overview: {
+            columns: ["Citizen", "DOB", "License", "Flag"],
+            rows: [
+              ["Aiden Brooks", "04/19/1998", "Valid", "None"],
+              ["Mia Carter", "08/02/1995", "Suspended", "BOLO"],
+              ["Logan Price", "01/12/2000", "Valid", "Warning"],
+              ["Zoe Bennett", "11/28/1993", "Expired", "None"]
+            ]
+          },
+          Database: {
+            columns: ["Citizen", "ID", "Phone", "Address"],
+            rows: [
+              ["Aiden Brooks", "CID-1008", "555-2139", "Vinewood Blvd"],
+              ["Mia Carter", "CID-1012", "555-4491", "Elgin Ave"],
+              ["Logan Price", "CID-1018", "555-9921", "Spanish Ave"],
+              ["Zoe Bennett", "CID-1022", "555-1148", "Power St"]
+            ]
+          },
+          Assignments: {
+            columns: ["Citizen", "Linked Case", "Assigned Unit", "Type"],
+            rows: [
+              ["Mia Carter", "C-302", "A-12", "Investigative"],
+              ["Logan Price", "C-297", "B-07", "Witness"],
+              ["Aiden Brooks", "C-301", "K-21", "Victim"],
+              ["Zoe Bennett", "C-293", "AIR-1", "Reference"]
+            ]
+          },
+          Archive: {
+            columns: ["Date", "Citizen", "Action", "Outcome"],
+            rows: [
+              ["06/11", "Mia Carter", "Record Update", "Saved"],
+              ["06/10", "Aiden Brooks", "License Check", "Verified"],
+              ["06/09", "Zoe Bennett", "Address Update", "Modified"],
+              ["06/09", "Logan Price", "Flag Review", "Retained"]
+            ]
+          }
+        }
+      },
+      OPERATIONS: {
+        description: "Coordinate higher priority scenes, tactical planning, and organized field assignments.",
+        sections: {
+          Overview: {
+            columns: ["Op ID", "Scene", "Lead", "State"],
+            rows: [
+              ["OP-71", "Bank Perimeter", "M. Hale", "Active"],
+              ["OP-72", "Port Sweep", "E. Cruz", "Planning"],
+              ["OP-73", "Warrant Service", "R. Cole", "Standby"],
+              ["OP-74", "Air Assist", "J. Mercer", "Available"]
+            ]
+          },
+          Database: {
+            columns: ["Op ID", "Type", "Created", "Priority"],
+            rows: [
+              ["OP-71", "Containment", "Today", "High"],
+              ["OP-72", "Search", "Today", "Medium"],
+              ["OP-73", "Warrant", "Yesterday", "High"],
+              ["OP-74", "Support", "Yesterday", "Low"]
+            ]
+          },
+          Assignments: {
+            columns: ["Team", "Operation", "Role", "Status"],
+            rows: [
+              ["Alpha", "OP-71", "Outer Perimeter", "Assigned"],
+              ["Bravo", "OP-72", "Entry Team", "Briefing"],
+              ["Charlie", "OP-73", "Support", "Ready"],
+              ["Air", "OP-74", "Aerial View", "Queued"]
+            ]
+          },
+          Archive: {
+            columns: ["Date", "Op ID", "Action", "Result"],
+            rows: [
+              ["06/11", "OP-66", "Completed", "Successful"],
+              ["06/10", "OP-63", "Canceled", "Intel Change"],
+              ["06/10", "OP-61", "Revised", "Updated Plan"],
+              ["06/09", "OP-58", "Closed", "Archived"]
+            ]
+          }
+        }
+      },
+      BOLOS: {
+        description: "Publish be-on-the-lookout alerts for active persons, vehicles, and immediate watch targets.",
+        sections: {
+          Overview: {
+            columns: ["BOLO ID", "Target", "Type", "Threat"],
+            rows: [
+              ["B-401", "Black Sultan RS", "Vehicle", "High"],
+              ["B-402", "Mia Carter", "Person", "Medium"],
+              ["B-403", "Grey Bati 801", "Vehicle", "Low"],
+              ["B-404", "Unknown Male", "Person", "High"]
+            ]
+          },
+          Database: {
+            columns: ["BOLO ID", "Issued By", "Time", "Status"],
+            rows: [
+              ["B-401", "Dispatch", "2 min ago", "Active"],
+              ["B-402", "A-12", "10 min ago", "Active"],
+              ["B-403", "B-07", "18 min ago", "Monitoring"],
+              ["B-404", "K-21", "23 min ago", "Escalated"]
+            ]
+          },
+          Assignments: {
+            columns: ["Unit", "BOLO", "Region", "Task"],
+            rows: [
+              ["A-12", "B-401", "North", "Locate Vehicle"],
+              ["B-07", "B-403", "Downtown", "Visual Sweep"],
+              ["K-21", "B-404", "East", "Canvass"],
+              ["AIR-1", "B-402", "Citywide", "Overwatch"]
+            ]
+          },
+          Archive: {
+            columns: ["Date", "BOLO ID", "Resolution", "Notes"],
+            rows: [
+              ["06/11", "B-397", "Located", "Tow Requested"],
+              ["06/10", "B-394", "Detained", "Arrest Made"],
+              ["06/10", "B-388", "Canceled", "Bad Info"],
+              ["06/09", "B-385", "Expired", "No Contact"]
+            ]
+          }
+        }
+      },
+      SETTINGS: {
+        description: "Adjust theme colors, terminal preferences, layout behavior, and saved visual options.",
+        sections: {
+          Overview: {
+            columns: ["Option", "Value", "Scope", "State"],
+            rows: [
+              ["Highlight Theme", "Dynamic", "Local", "Enabled"],
+              ["Compact Layout", "Off", "Local", "Saved"],
+              ["Animation Mode", "Standard", "Local", "Enabled"],
+              ["Terminal Sound", "Muted", "Local", "Saved"]
+            ]
+          },
+          Database: {
+            columns: ["Profile", "Theme", "Layout", "Updated"],
+            rows: [
+              ["Default", "Blue", "Standard", "Today"],
+              ["Patrol", "Red", "Compact", "Yesterday"],
+              ["Detective", "Purple", "Standard", "Yesterday"],
+              ["Traffic", "Orange", "Wide", "2 days ago"]
+            ]
+          },
+          Assignments: {
+            columns: ["Preset", "Owner", "Usage", "Access"],
+            rows: [
+              ["Default", "All Units", "General", "Public"],
+              ["Patrol", "Field Teams", "Shift Use", "Limited"],
+              ["Detective", "CID", "Cases", "Restricted"],
+              ["Traffic", "Motor Unit", "Stops", "Limited"]
+            ]
+          },
+          Archive: {
+            columns: ["Date", "Setting", "Action", "Result"],
+            rows: [
+              ["06/11", "Theme", "Changed", "Blue Applied"],
+              ["06/10", "Layout", "Saved", "Compact Stored"],
+              ["06/09", "Audio", "Muted", "Confirmed"],
+              ["06/09", "Profile", "Created", "Detective Added"]
+            ]
+          }
+        }
+      }
+    };
+
+    const homeView = document.getElementById("homeView");
+    const moduleView = document.getElementById("moduleView");
     const tiles = [...document.querySelectorAll(".tile")];
-    const previewTitle = document.getElementById("previewTitle");
-    const previewDesc = document.getElementById("previewDesc");
-    const previewTags = document.getElementById("previewTags");
-    const toastWrap = document.getElementById("toastWrap");
     const chooseColorBtn = document.getElementById("chooseColorBtn");
-    const resetBtn = document.getElementById("resetBtn");
+    const enterBtn = document.getElementById("enterBtn");
     const closeBtn = document.getElementById("closeBtn");
+    const backBtn = document.getElementById("backBtn");
+    const moduleCloseBtn = document.getElementById("moduleCloseBtn");
 
-    let globalAccent = localStorage.getItem("mdtAccent") || "mixed";
+    const moduleTitle = document.getElementById("moduleTitle");
+    const moduleDesc = document.getElementById("moduleDesc");
+    const moduleBadge = document.getElementById("moduleBadge");
+    const subList = document.getElementById("subList");
+    const mainSectionTitle = document.getElementById("mainSectionTitle");
+    const mainSectionDesc = document.getElementById("mainSectionDesc");
+    const tableHeadRow = document.getElementById("tableHeadRow");
+    const tableBody = document.getElementById("tableBody");
+    const statusPill = document.getElementById("statusPill");
+    const searchInput = document.getElementById("searchInput");
+    const searchBtn = document.getElementById("searchBtn");
+    const actionBtn = document.getElementById("actionBtn");
+    const footerNote = document.getElementById("footerNote");
+    const toastWrap = document.getElementById("toastWrap");
 
-    function toast(title, message) {
-      const el = document.createElement("div");
-      el.className = "toast";
-      el.innerHTML = `<strong>${title}</strong><p>${message}</p>`;
-      toastWrap.appendChild(el);
+    let currentThemeIndex = parseInt(localStorage.getItem("mdtThemeIndex") || "0", 10);
+    if (Number.isNaN(currentThemeIndex) || currentThemeIndex < 0 || currentThemeIndex >= THEMES.length) {
+      currentThemeIndex = 0;
+    }
+
+    let selectedModule = "UNITS";
+    let currentSubSection = "Overview";
+
+    function showToast(title, message) {
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = `<strong>${title}</strong><p>${message}</p>`;
+      toastWrap.appendChild(toast);
 
       setTimeout(() => {
-        el.style.opacity = "0";
-        el.style.transform = "translateY(-6px)";
-        el.style.transition = "0.2s ease";
-        setTimeout(() => el.remove(), 200);
-      }, 2500);
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(-6px)";
+        toast.style.transition = "0.2s ease";
+        setTimeout(() => toast.remove(), 200);
+      }, 2400);
     }
 
-    function renderTags(tagString) {
-      const tags = tagString.split(",").map(tag => tag.trim()).filter(Boolean);
-      previewTags.innerHTML = "";
-      tags.forEach(tag => {
-        const span = document.createElement("span");
-        span.className = "preview-tag";
-        span.textContent = tag;
-        previewTags.appendChild(span);
-      });
+    function applyTheme(index) {
+      const theme = THEMES[index];
+
+      document.documentElement.style.setProperty("--accent", theme.accent);
+      document.documentElement.style.setProperty("--accent-soft", theme.soft);
+      document.documentElement.style.setProperty("--accent-line", theme.line);
+      document.documentElement.style.setProperty("--accent-glow-1", theme.glow1);
+      document.documentElement.style.setProperty("--accent-glow-2", theme.glow2);
+
+      localStorage.setItem("mdtThemeIndex", String(index));
     }
 
-    function applyGlobalAccent(mode) {
-      tiles.forEach(tile => {
-        const isActive = tile.classList.contains("active");
-        tile.classList.remove("blue", "purple");
-
-        if (mode === "blue") {
-          tile.classList.add("blue");
-        } else if (mode === "purple") {
-          tile.classList.add("purple");
-        } else {
-          const original = tile.dataset.color || "blue";
-          tile.classList.add(original);
-        }
-
-        if (!isActive) {
-          tile.classList.remove("active");
-        }
-      });
-
-      const activeTile = document.querySelector(".tile.active") || tiles[0];
-      if (!activeTile.classList.contains("active")) activeTile.classList.add("active");
-
-      localStorage.setItem("mdtAccent", mode);
-      globalAccent = mode;
+    function getActiveTile() {
+      return document.querySelector(".tile.active");
     }
 
     function selectTile(tile) {
       tiles.forEach(t => t.classList.remove("active"));
       tile.classList.add("active");
+      selectedModule = tile.dataset.module;
+      showToast("Module Selected", `${selectedModule} ready to enter.`);
+    }
 
-      previewTitle.textContent = tile.dataset.title;
-      previewDesc.textContent = tile.dataset.desc;
-      renderTags(tile.dataset.tags);
+    function switchView(viewName) {
+      homeView.classList.toggle("active", viewName === "home");
+      moduleView.classList.toggle("active", viewName === "module");
+    }
 
-      toast("Module Selected", `${tile.dataset.title} loaded in preview mode.`);
+    function renderSubButtons() {
+      const sections = Object.keys(MODULE_DATA[selectedModule].sections);
+      subList.innerHTML = "";
+
+      sections.forEach((sectionName, index) => {
+        const button = document.createElement("button");
+        button.className = `sub-btn${index === 0 ? " active" : ""}`;
+        button.dataset.sub = sectionName;
+        button.textContent = sectionName;
+        subList.appendChild(button);
+      });
+
+      currentSubSection = sections[0];
+    }
+
+    function renderTable() {
+      const sectionData = MODULE_DATA[selectedModule].sections[currentSubSection];
+      tableHeadRow.innerHTML = "";
+      tableBody.innerHTML = "";
+
+      sectionData.columns.forEach(col => {
+        const th = document.createElement("th");
+        th.textContent = col;
+        tableHeadRow.appendChild(th);
+      });
+
+      sectionData.rows.forEach(row => {
+        const tr = document.createElement("tr");
+        row.forEach(cell => {
+          const td = document.createElement("td");
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+
+        tr.addEventListener("click", () => {
+          showToast("Row Selected", `${selectedModule} → ${row[0]}`);
+        });
+
+        tableBody.appendChild(tr);
+      });
+
+      mainSectionTitle.textContent = currentSubSection;
+      mainSectionDesc.textContent = `${selectedModule} / ${currentSubSection} preview content loaded.`;
+      statusPill.textContent = selectedModule === "CALLS" || selectedModule === "BOLOS" ? "LIVE" : "ONLINE";
+      footerNote.textContent = `${selectedModule} is being previewed in browser mode. Later this can be connected to real searches, records, callbacks, and live server data.`;
+      actionBtn.textContent = selectedModule === "REPORTS" ? "Open Report" :
+                              selectedModule === "CITIZENS" ? "Open Citizen" :
+                              selectedModule === "CALLS" ? "Attach Unit" :
+                              selectedModule === "EVIDENCE" ? "Open Evidence" :
+                              "Open Record";
+    }
+
+    function openModuleView() {
+      const module = MODULE_DATA[selectedModule];
+      moduleTitle.textContent = selectedModule;
+      moduleDesc.textContent = module.description;
+      moduleBadge.textContent = `ACTIVE: ${selectedModule}`;
+      renderSubButtons();
+      renderTable();
+      switchView("module");
+      showToast("Entered Module", `${selectedModule} opened.`);
+    }
+
+    function cycleTheme() {
+      currentThemeIndex = (currentThemeIndex + 1) % THEMES.length;
+      applyTheme(currentThemeIndex);
+      showToast("Theme Changed", `${THEMES[currentThemeIndex].name} glow applied across the interface.`);
     }
 
     tiles.forEach(tile => {
       tile.addEventListener("click", () => selectTile(tile));
     });
 
-    chooseColorBtn.addEventListener("click", () => {
-      const next = globalAccent === "mixed"
-        ? "blue"
-        : globalAccent === "blue"
-        ? "purple"
-        : "mixed";
+    chooseColorBtn.addEventListener("click", cycleTheme);
 
-      applyGlobalAccent(next);
+    enterBtn.addEventListener("click", openModuleView);
 
-      const label =
-        next === "mixed" ? "Mixed blue/purple"
-        : next === "blue" ? "Blue"
-        : "Purple";
-
-      toast("Theme Updated", `${label} highlight theme applied.`);
-    });
-
-    resetBtn.addEventListener("click", () => {
-      applyGlobalAccent("mixed");
-      selectTile(tiles[0]);
-      toast("Theme Reset", "Default MDT theme restored.");
+    backBtn.addEventListener("click", () => {
+      switchView("home");
+      showToast("Returned", "Back to MDT home.");
     });
 
     closeBtn.addEventListener("click", () => {
-      toast("Preview Only", "Close button clicked. Hook this into NUI later.");
+      showToast("Preview Only", "Hook this close button into NUI later.");
     });
 
-    applyGlobalAccent(globalAccent);
+    moduleCloseBtn.addEventListener("click", () => {
+      showToast("Preview Only", "Hook this close button into NUI later.");
+    });
+
+    subList.addEventListener("click", (event) => {
+      const target = event.target.closest(".sub-btn");
+      if (!target) return;
+
+      document.querySelectorAll(".sub-btn").forEach(btn => btn.classList.remove("active"));
+      target.classList.add("active");
+
+      currentSubSection = target.dataset.sub;
+      renderTable();
+      showToast("Section Swapped", `${currentSubSection} loaded.`);
+    });
+
+    searchBtn.addEventListener("click", () => {
+      const value = searchInput.value.trim();
+      if (!value) {
+        showToast("Search Empty", "Type something into the search field.");
+        return;
+      }
+      showToast("Search", `Searching "${value}" inside ${selectedModule}.`);
+    });
+
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        searchBtn.click();
+      }
+    });
+
+    actionBtn.addEventListener("click", () => {
+      showToast("Action", `${actionBtn.textContent} clicked in ${selectedModule}.`);
+    });
+
+    applyTheme(currentThemeIndex);
     selectTile(tiles[0]);
   </script>
 </body>
